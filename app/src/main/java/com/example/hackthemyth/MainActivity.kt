@@ -1,20 +1,203 @@
 package com.example.hackthemyth
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+    data class Question (
+        val statement: String,
+        val correctAnswer: Boolean,
+        val explanation: String
+    )
+    private val questions = arrayOf(
+        Question(
+            "Toothpaste on headlights makes them shiny and clean.",
+            false,
+            "Myth:It may clean on one side, but it does not clean on the inside or provide a lasting fix."
+        ),
+        Question (
+            "Rub a bar of soap on both sides of a tough zipper to make is slide smoothly.",
+            true,
+            "Hack:Bar soap contains fats and oils that create a slippery, thin layer over the metal or plastic teeth."
+        ),
+        Question(
+            "Closing unused apps always saves a lot of battery.",
+            false,
+            "Myth:Smart phones manage background apps automatically. Closing apps may allow use of more power."
+        )
+    )
+    private var currenyQuestionIndex = 0
+    private var score = 0
+    private var hasAnswered = false
+
+    override fun onCreate (savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        showWelcomeScreen()
+    }
+    private fun showWelcomeScreen() {
+        val layout = LinearLayout (this)
+        layout.orientation = LinearLayout.VERTICAL
+        layout.setPadding(40, 80, 40, 40)
+
+        val title = TextView(this)
+        title.text = "Welcome to Myth or Hack!"
+        title.textSize = 26f
+
+        val description = TextView(this)
+        description.text = "Test your ability to sniff out the truths and lies."
+        description.textSize = 18f
+
+        val startButton = Button(this)
+        startButton.text = "Let the quiz begin"
+
+        layout.addView(title)
+        layout.addView(description)
+        layout.addView(startButton)
+
+        setContentView(layout)
+
+        startButton.setOnClickListener {
+            currentQuestionIndex = 0
+            score = 0
+            showQuestionScreen()
         }
     }
+
+    private fun showQuestionScreen(){
+        hasAnswered = false
+
+        val question = questions [currentQuestionIndex]
+
+        val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.VERTICAL
+        layout.setPadding(40,80, 40, 40)
+
+        val questionNumber = TextView (this)
+        questionNumber.text = "Question ${currentQuestionIndex + 1} of ${questions.size}"
+        questionNumber.textSize = 18f
+
+        val trueButton = Button(this)
+        trueButton.text = "Myth / False"
+
+        val nextButton = Button(this)
+        nextButton.text = "Next"
+        nextButton.isEnabled = false
+
+        layout.addView(questionNumber)
+        layout.addview(statement)
+        layout.addView(trueButton)
+        layout.addView(falseButton)
+        layout.addView(feedback)
+        layout.addView(nextButton)
+
+        setContentView(layout)
+
+        trueButton.setOnClickListener {
+            checkAnswer(true, feedback, nextButton, trueButton, falseButton)
+        }
+
+        falseButton.setOnClickListener {
+            checkAnswer(false, feedback, nextButton, trueButton,falseButton)
+        }
+
+        nextButton.setOnClickListener {
+            currentQuestionIndex++
+
+            if ( currentQuestionIndex < questions.size){
+                showQuestionScreen()
+            } else {
+                showScoreScreen()
+            }
+        }
+    }
+
+    private fun checkAnswer(
+        userAnswer: Boolean,
+        feedback: TextView,
+        nextButton: Button,
+        trueButton: Button,
+        falseButton: Button
+    ){
+        if (hasAnswered) return
+
+        val question = questions[currentQuestionIndex]
+
+        if (userAnswer == question.correctAnswer) {
+            score++
+            feedback.text = "Correct! That is spot on."
+        } else {
+            feedback.text = "Wrong! False alarm."
+        }
+
+        hasAnswered = true
+        nextButton.isEnabled = true
+        trueButton.isEnabled = false
+        falseButton.isEnabled = false
+    }
+
+    private fun showScoreScreen(){
+        val layout = LinearLayout(this)
+        scoreText.text = "The verdict: $score out of ${questions.size}"
+        scoreText.textSize = 20f
+
+        feedback.text = when (score) {
+            3 -> "Master Hacker! You know your real-life hacks well."
+            2 -> "Smart Solver! You can spot most hacks and myths."
+            else -> "Stay Safe Online! Some hacks are what they seem."
+        }
+
+        val reviewButton = Button(this)
+        reviewButton.text = "Review Answers"
+
+        layout.addView(scoreText)
+        layout.addView(feedback)
+        layout.addView(reviewButton)
+
+        setContentView(layout)
+
+        reviewButton.setOnClickListener {
+            showReviewScreen()
+        }
+    }
+
+    private fun showReviewScreen(){
+        val layout = LinearLayout(this)
+        layout.orientation = LinearLayout(this)
+        layout.setPadding(40, 60, 40, 40)
+
+        val title = TextView(this)
+        title.text = "Review Answers"
+        title.textSize = 24f
+
+        layout.addView(title)
+
+        for (question in questions) {
+            val reviewText = TextView(this)
+
+            val answerText = if (question.correctAnswer) "Hack" else "Myth"
+
+            reviewText.text = """
+                Statement: ${question.statement}
+                Correct Answer: $answerText
+                Explanation: ${question.explanation}
+                """.trimIndent()
+
+            reviewText.textSize = 16f
+            layout.addView(reviewText)
+        }
+
+        val restartButton = Button(this)
+        restartButton.text = "Restart Quiz"
+
+        layout.addView(restartButton)
+
+        setContentView(layout)
+
+        restartButton.setOnClickListener {
+            showWelcomeScreen()
+        }
+    }
+
 }
