@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import android.graphics.Color
+import android.graphics.Typeface
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -168,7 +170,9 @@ class MainActivity : AppCompatActivity() {
         scoreText.textSize = 24f
 
         val feedback = TextView(this)
-        feedback.textSize = 20f
+        feedback.textSize = 24f
+        feedback.setTypeface(feedback.typeface, android.graphics.Typeface.BOLD)
+        feedback.gravity = android.view.Gravity.CENTER
 
         feedback.text = when (score) {
             3 -> "Master Hacker! You know your real-life hacks well."
