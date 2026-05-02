@@ -37,17 +37,25 @@ class MainActivity : AppCompatActivity() {
         showWelcomeScreen()
     }
     private fun showWelcomeScreen() {
+
         val layout = LinearLayout (this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 80, 40, 40)
+        layout.setBackgroundColor(resources.getColor(android.R.color.holo_blue_light))
+
+        layout.gravity = android.view.Gravity.CENTER
 
         val title = TextView(this)
         title.text = "Welcome to Myth or Hack!"
         title.textSize = 26f
+        title.setTextColor(resources.getColor(android.R.color.white))
+        title.gravity = android.view.Gravity.CENTER
 
         val description = TextView(this)
         description.text = "Test your ability to sniff out the truths and lies."
         description.textSize = 18f
+        description.setTextColor(resources.getColor(android.R.color.white))
+        description.gravity = android.view.Gravity.CENTER
 
         val startButton = Button(this)
         startButton.text = "Let the quiz begin"
