@@ -3,6 +3,7 @@ package com.example.hackthemyth
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 
 class MainActivity : AppCompatActivity() {
 
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         statement.textSize = 22f
 
         val feedback = TextView(this)
-        feedback.textSize = 18f
+        feedback.textSize = 20f
 
         val trueButton = Button(this)
         trueButton.text = "Hack"
@@ -144,9 +145,11 @@ class MainActivity : AppCompatActivity() {
 
         if (userAnswer == question.correctAnswer) {
             score++
-            feedback.text = "Correct! That is spot on."
+            feedback.text = "\uD83D\uDC4D\uD83C\uDFFD Correct! That is spot on."
+            feedback.setTextColor(Color.GREEN)
         } else {
-            feedback.text = "Wrong! False alarm."
+            feedback.text = "\uD83D\uDC4E\uD83C\uDFFD Wrong! False alarm."
+            feedback.setTextColor(Color.RED)
         }
 
         hasAnswered = true
