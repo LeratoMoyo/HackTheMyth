@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showReviewScreen(){
         val layout = LinearLayout(this)
-        layout.orientation = LinearLayout(this)
+        layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 60, 40, 40)
 
         val title = TextView(this)
