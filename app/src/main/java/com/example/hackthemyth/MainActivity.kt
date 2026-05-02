@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    data class Question (
+    data class Question(
         val statement: String,
         val correctAnswer: Boolean,
         val explanation: String
@@ -74,12 +74,22 @@ class MainActivity : AppCompatActivity() {
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40,80, 40, 40)
 
-        val questionNumber = TextView (this)
+        val questionNumber = TextView(this)
         questionNumber.text = "Question ${currentQuestionIndex + 1} of ${questions.size}"
         questionNumber.textSize = 18f
 
+        val statement = TextView(this)
+        statement.text = question.statement
+        statement.textSize = 22f
+
+        val feedback = TextView(this)
+        feedback.textSize = 18f
+
         val trueButton = Button(this)
-        trueButton.text = "Myth / False"
+        trueButton.text = "Hack"
+
+        val falseButton = Button(this)
+        falseButton.text = "Myth"
 
         val nextButton = Button(this)
         nextButton.text = "Next"
