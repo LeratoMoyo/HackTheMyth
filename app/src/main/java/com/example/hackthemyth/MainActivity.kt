@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             "Myth:Smart phones manage background apps automatically. Closing apps may allow use of more power."
         )
     )
-    private var currenyQuestionIndex = 0
+    private var currentQuestionIndex = 0
     private var score = 0
     private var hasAnswered = false
 
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         nextButton.isEnabled = false
 
         layout.addView(questionNumber)
-        layout.addview(statement)
+        layout.addView(statement)
         layout.addView(trueButton)
         layout.addView(falseButton)
         layout.addView(feedback)
@@ -99,13 +99,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         falseButton.setOnClickListener {
-            checkAnswer(false, feedback, nextButton, trueButton,falseButton)
+            checkAnswer(false, feedback, nextButton, trueButton, falseButton)
         }
 
         nextButton.setOnClickListener {
             currentQuestionIndex++
 
-            if ( currentQuestionIndex < questions.size){
+            if (currentQuestionIndex < questions.size) {
                 showQuestionScreen()
             } else {
                 showScoreScreen()
