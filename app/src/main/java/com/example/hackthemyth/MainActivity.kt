@@ -149,8 +149,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun showScoreScreen(){
         val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.VERTICAL
+        layout.setPadding(40, 80, 40, 40)
+
+        val scoreText = TextView(this)
         scoreText.text = "The verdict: $score out of ${questions.size}"
-        scoreText.textSize = 20f
+        scoreText.textSize = 24f
+
+        val feedback = TextView(this)
+        feedback.textSize = 20f
 
         feedback.text = when (score) {
             3 -> "Master Hacker! You know your real-life hacks well."
