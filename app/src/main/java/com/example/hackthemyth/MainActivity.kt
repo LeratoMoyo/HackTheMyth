@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity() {
         feedback.text = when (score) {
             3 -> "Master Hacker! You know your real-life hacks well."
             2 -> "Smart Solver! You can spot most hacks and myths."
-            else -> "Stay Safe Online! Some hacks are what they seem."
+            else -> "Stay Safe Online! Some hacks are not what they seem."
         }
 
         val reviewButton = Button(this)
