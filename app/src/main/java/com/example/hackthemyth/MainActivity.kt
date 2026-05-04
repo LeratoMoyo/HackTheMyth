@@ -1,10 +1,10 @@
 package com.example.hackthemyth
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import android.graphics.Color
-import android.graphics.Typeface
 
 
 class MainActivity : AppCompatActivity() {
@@ -14,13 +14,14 @@ class MainActivity : AppCompatActivity() {
         val correctAnswer: Boolean,
         val explanation: String
     )
+
     private val questions = arrayOf(
         Question(
             "Toothpaste on headlights makes them shiny and clean.",
             false,
             "Myth:It may clean on one side, but it does not clean on the inside or provide a lasting fix."
         ),
-        Question (
+        Question(
             "Rub a bar of soap on both sides of a tough zipper to make is slide smoothly.",
             true,
             "Hack:Bar soap contains fats and oils that create a slippery, thin layer over the metal or plastic teeth."
@@ -35,13 +36,14 @@ class MainActivity : AppCompatActivity() {
     private var score = 0
     private var hasAnswered = false
 
-    override fun onCreate (savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         showWelcomeScreen()
     }
+
     private fun showWelcomeScreen() {
 
-        val layout = LinearLayout (this)
+        val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 80, 40, 40)
         layout.setBackgroundColor(resources.getColor(android.R.color.holo_blue_light))
@@ -76,14 +78,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showQuestionScreen(){
+    private fun showQuestionScreen() {
         hasAnswered = false
 
-        val question = questions [currentQuestionIndex]
+        val question = questions[currentQuestionIndex]
 
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
-        layout.setPadding(40,80, 40, 40)
+        layout.setPadding(40, 80, 40, 40)
 
         val questionNumber = TextView(this)
         questionNumber.text = "Question ${currentQuestionIndex + 1} of ${questions.size}"
@@ -140,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         nextButton: Button,
         trueButton: Button,
         falseButton: Button
-    ){
+    ) {
         if (hasAnswered) return
 
         val question = questions[currentQuestionIndex]
@@ -160,7 +162,7 @@ class MainActivity : AppCompatActivity() {
         falseButton.isEnabled = false
     }
 
-    private fun showScoreScreen(){
+    private fun showScoreScreen() {
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 80, 40, 40)
@@ -194,37 +196,63 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showReviewScreen(){
+    private fun showReviewScreen() {
+        val scrollView = ScrollView(this)
+
         val layout = LinearLayout(this)
-        layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 60, 40, 40)
 
         val title = TextView(this)
         title.text = "Review Answers"
-        title.textSize = 24f
+        title.textSize = 26f
+        title.setTypeface(title.typeface, android.graphics.Typeface.BOLD)
+        title.gravity = android.view.Gravity.CENTER
+        title.setPadding(0, 0, 0, 30)
 
         layout.addView(title)
 
-        for (question in questions) {
+        for ((index, question) in questions.withIndex()) {
             val reviewText = TextView(this)
 
-            val answerText = if (question.correctAnswer) "Hack" else "Myth"
-
+            val answerText = if (question.correctAnswer) {
+                "Hack"
+            } else {
+                "Myth"
+            }
             reviewText.text = """
-                Statement: ${question.statement}
-                Correct Answer: $answerText
-                Explanation: ${question.explanation}
-                """.trimIndent()
+                Question ${index + 1}
+                
+                Statement:
+                ${question.statement}
+                
+                Correct Answer:
+                $answerText
+                
+                Explanation:
+                ${question.explanation}
+             """.trimIndent()
 
-            reviewText.textSize = 16f
+            reviewText.textSize = 17f
+            reviewText.setPadding(20, 20, 20, 30)
+
             layout.addView(reviewText)
-        }
 
+            val line = View(this)
+            line.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                3
+            )
+            line.setBackgroundColor(Color.LTGRAY)
+
+            layout.addView(line)
+        }
         val restartButton = Button(this)
         restartButton.text = "Restart Quiz"
+        restartButton.setPadding(0, 20, 0, 20)
 
         layout.addView(restartButton)
 
+        scrollView.addView(layout)
         setContentView(layout)
 
         restartButton.setOnClickListener {
