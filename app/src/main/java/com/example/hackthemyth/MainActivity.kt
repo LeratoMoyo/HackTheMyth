@@ -2,9 +2,9 @@ package com.example.hackthemyth
 
 import android.os.Bundle
 import android.widget.*
-import androidx.appcompat.app.AppCompactActivity
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
 
     data class Question(
         val statement: String,
@@ -158,7 +158,8 @@ class MainActivity : Activity() {
         scoreText.text = "Your Score: $score out of ${questions.size}"
         scoreText.textSize = 24f
 
-        val feedback.text = when (score) {
+        val feedback = TextView(this)
+        feedback.textSize = 20f
 
         feedback.text = when (score) {
             3 -> "THE VERDICT: Master Hacker! You know your real-life hacks well, great work."
@@ -189,20 +190,25 @@ class MainActivity : Activity() {
         title.text = "Review Answers"
         title.textSize = 24f
 
-        layout.addView(reviewText)
+        layout.addView(title)
 
         for (question in questions) {
             val reviewText = TextView(this)
 
-            val answerText = is (question.correctAnswer) "Hack" else "Myth"
-
-            reviewText.text = """
-                        "Statement: ${question.statement}
-                         Correct Answer: $answerText
-                         Explanation: ${question.explanation}
-                     """.trimIndent()
+            val answerText = if (question.correctAnswer) {
+                "Hack"
+            } else {
+                "Myth"
             }
+
+            reviewText.text =
+                "Statement: \n${question.statement}\n\n" +
+                "Correct Answer:\n$answerText\n\n" +
+                "Explantion: \n${question.explanation}\n"
+
             reviewText.textSize = 16f
+            reviewText.setPadding(0, 20, 0, 30)
+
             layout.addView(reviewText)
         }
 
