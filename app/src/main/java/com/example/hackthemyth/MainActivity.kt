@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         title.textSize = 26f
 
         val description = TextView(this)
-        description.text = "Test your ability to sniff out the truths and lies. Is it a Hack or a Myth?"
+        description.text = "Test your ability to sniff out the truths and lies. Is it a Hack or a Myth \uD83E\uDD14?"
         description.textSize = 18f
 
         val startButton = Button(this)
