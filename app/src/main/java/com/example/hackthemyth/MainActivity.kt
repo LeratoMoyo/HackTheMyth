@@ -138,9 +138,9 @@ class MainActivity : AppCompatActivity() {
 
         if (userAnswer == question.correctAnswer) {
             score++
-            feedback.text = "Correct! That is spot on."
+            feedback.text = "\uD83D\uDC4D\uD83C\uDFFD Correct! That is spot on."
         } else {
-            feedback.text = "Wrong! False alarm."
+            feedback.text = "\uD83D\uDC4E\uD83C\uDFFE Wrong! False alarm."
         }
 
         hasAnswered = true
