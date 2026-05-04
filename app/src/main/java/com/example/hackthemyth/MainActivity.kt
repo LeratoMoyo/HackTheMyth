@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private fun showWelcomeScreen() {
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
+        layout.setBackgroundColor(Color.BLUE)
         layout.setPadding(40, 80, 40, 40)
 
         val title = TextView(this)
