@@ -2,7 +2,6 @@ package com.example.hackthemyth
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
@@ -200,25 +199,23 @@ class MainActivity : AppCompatActivity() {
         val scrollView = ScrollView(this)
 
         val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 60, 40, 40)
 
         val title = TextView(this)
         title.text = "Review Answers"
         title.textSize = 26f
-        title.setTypeface(title.typeface, android.graphics.Typeface.BOLD)
         title.gravity = android.view.Gravity.CENTER
+        title.setTypeface(title.typeface, android.graphics.Typeface.BOLD)
         title.setPadding(0, 0, 0, 30)
 
         layout.addView(title)
 
         for ((index, question) in questions.withIndex()) {
-            val reviewText = TextView(this)
+            val answerText = if (question.correctAnswer) "Hack" else "Myth"
 
-            val answerText = if (question.correctAnswer) {
-                "Hack"
-            } else {
-                "Myth"
-            }
+
+            val reviewText.text = TextView(this)
             reviewText.text = """
                 Question ${index + 1}
                 
@@ -236,24 +233,15 @@ class MainActivity : AppCompatActivity() {
             reviewText.setPadding(20, 20, 20, 30)
 
             layout.addView(reviewText)
-
-            val line = View(this)
-            line.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                3
-            )
-            line.setBackgroundColor(Color.LTGRAY)
-
-            layout.addView(line)
         }
         val restartButton = Button(this)
         restartButton.text = "Restart Quiz"
-        restartButton.setPadding(0, 20, 0, 20)
 
         layout.addView(restartButton)
 
-        scrollView.addView(layout)
-        setContentView(layout)
+        scrollView.addView.(layout)
+
+        setContentView(scrollView)
 
         restartButton.setOnClickListener {
             showWelcomeScreen()
