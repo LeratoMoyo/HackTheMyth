@@ -1,12 +1,14 @@
 package com.example.hackthemyth
 
+import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.ScrollView
+import android.widget.TextView
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
 
     data class Question(
         val statement: String,
@@ -41,25 +43,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showWelcomeScreen() {
-
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 80, 40, 40)
-        layout.setBackgroundColor(resources.getColor(android.R.color.holo_blue_light))
-
-        layout.gravity = android.view.Gravity.CENTER
+        layout.setBackgroundColor(Color.rgb(30, 144, 255))
 
         val title = TextView(this)
         title.text = "Welcome to Myth or Hack!"
-        title.textSize = 26f
-        title.setTextColor(resources.getColor(android.R.color.white))
+        title.textSize = 28f
+        title.setTextColor(Color.WHITE)
         title.gravity = android.view.Gravity.CENTER
+        title.setTypeface(title.typeface, android.graphics.Typeface.BOLD)
 
         val description = TextView(this)
-        description.text = "Test your ability to sniff out the truths and lies."
+        description.text =
+            "Test your ability to sniff out the truths and lies.\n\nIs it a Hack or a Myth"
         description.textSize = 18f
-        description.setTextColor(resources.getColor(android.R.color.white))
+        description.setTextColor(Color.WHITE)
         description.gravity = android.view.Gravity.CENTER
+        description.setPadding(0, 30, 0, 30)
 
         val startButton = Button(this)
         startButton.text = "Let the quiz begin"
@@ -93,15 +95,17 @@ class MainActivity : AppCompatActivity() {
         val statement = TextView(this)
         statement.text = question.statement
         statement.textSize = 22f
-
-        val feedback = TextView(this)
-        feedback.textSize = 20f
+        statement.setPadding(0, 30, 0, 30)
 
         val trueButton = Button(this)
         trueButton.text = "Hack"
 
         val falseButton = Button(this)
         falseButton.text = "Myth"
+
+        val feedback = TextView(this)
+        feedback.textSize = 20f
+        feedback.setPadding(0, 30, 0, 30)
 
         val nextButton = Button(this)
         nextButton.text = "Next"
@@ -164,28 +168,32 @@ class MainActivity : AppCompatActivity() {
     private fun showScoreScreen() {
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
+        layout.gravity = android.view.Gravity.CENTER
         layout.setPadding(40, 80, 40, 40)
 
         val scoreText = TextView(this)
-        scoreText.text = "The verdict: $score out of ${questions.size}"
-        scoreText.textSize = 24f
+        scoreText.text = "Your Score: $score out of ${questions.size}"
+        scoreText.textSize = 26f
+        score.gravity = android.view.Gravity.CENTER
+        scoreText.setPadding(0, 0, 0, 30)
 
-        val feedback = TextView(this)
-        feedback.textSize = 24f
-        feedback.setTypeface(feedback.typeface, android.graphics.Typeface.BOLD)
-        feedback.gravity = android.view.Gravity.CENTER
+        val verdict = TextView(this)
+        verdict.textSize = 24f
+        verdict.gravity = android.view.Gravity.CENTER
+        verdict.setTypeface(verdict.typeface, android.graphics.Typeface.BOLD)
+        verdict.setPadding(0, 0, 0, 30)
 
-        feedback.text = when (score) {
-            3 -> "Master Hacker! You know your real-life hacks well."
-            2 -> "Smart Solver! You can spot most hacks and myths."
-            else -> "Stay Safe Online! Some hacks are not what they seem."
+        verdict.text = when (score) {
+            3 -> "THE VERDICT: \nMaster Hacker!\nYou know your real-life hacks well, great work."
+            2 -> "THE VERDICT:\nSmart Solver!\nYou can spot most hacks and myths, most days."
+            else -> "THE VERDICT:\nBe vigilant!\nSome hacks are just for clicks."
         }
 
         val reviewButton = Button(this)
         reviewButton.text = "Review Answers"
 
         layout.addView(scoreText)
-        layout.addView(feedback)
+        layout.addView(verdict)
         layout.addView(reviewButton)
 
         setContentView(layout)
@@ -196,11 +204,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showReviewScreen() {
-        val scrollView = ScrollView(this)
+        val ScrollView = ScrollView(this)
 
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
-        layout.setPadding(40, 60, 40, 40)
+        setPadding(40, 60, 40, 40)
 
         val title = TextView(this)
         title.text = "Review Answers"
@@ -209,28 +217,19 @@ class MainActivity : AppCompatActivity() {
         title.setTypeface(title.typeface, android.graphics.Typeface.BOLD)
         title.setPadding(0, 0, 0, 30)
 
-        layout.addView(title)
+        layout.addView(reviewText)
 
         for ((index, question) in questions.withIndex()) {
             val answerText = if (question.correctAnswer) "Hack" else "Myth"
 
-
-            val reviewText.text = TextView(this)
-            reviewText.text = """
-                Question ${index + 1}
-                
-                Statement:
-                ${question.statement}
-                
-                Correct Answer:
-                $answerText
-                
-                Explanation:
-                ${question.explanation}
-             """.trimIndent()
+            val reviewText = TextView(this)
+            reviewText.text =
+                "Question ${index + 1}\n\n" +
+                        "Statement: \n${question.statement}\n\n" +
+                        "Explanation: \n${question.explanation}\n"
 
             reviewText.textSize = 17f
-            reviewText.setPadding(20, 20, 20, 30)
+            reviewText.setPadding(20, 20, 20, 40)
 
             layout.addView(reviewText)
         }
@@ -239,13 +238,11 @@ class MainActivity : AppCompatActivity() {
 
         layout.addView(restartButton)
 
-        scrollView.addView.(layout)
-
+        scrollView.addView(layout)
         setContentView(scrollView)
 
         restartButton.setOnClickListener {
             showWelcomeScreen()
         }
     }
-
 }
